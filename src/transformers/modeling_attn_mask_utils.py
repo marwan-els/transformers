@@ -449,10 +449,7 @@ def _prepare_4d_attention_mask_for_sdpa(mask: torch.Tensor, dtype: torch.dtype, 
     tgt_len = tgt_len if tgt_len is not None else key_value_length
 
     # torch.jit.trace, symbolic_trace and torchdynamo with fullgraph=True are unable to capture data-dependent controlflows.
-    if not is_tracing(mask) and torch.all(mask == 1):
-        return None
-    else:
-        return AttentionMaskConverter._expand_mask(mask=mask, dtype=dtype, tgt_len=tgt_len)
+    return AttentionMaskConverter._expand_mask(mask=mask, dtype=dtype, tgt_len=tgt_len)
 
 
 def _create_4d_causal_attention_mask(
