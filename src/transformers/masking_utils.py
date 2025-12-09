@@ -264,9 +264,6 @@ def _ignore_bidirectional_mask_sdpa(padding_mask: Optional[torch.Tensor]) -> boo
     """
     # When using `torch.export` or `torch.onnx.dynamo_export`, we need to avoid to check the contents of the mask;
     # otherwise, we will encounter dynamic control flows
-    if not is_tracing(padding_mask) and (padding_mask is None or padding_mask.all()):
-        return True
-
     return False
 
 
